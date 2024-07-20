@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { revokeAdmin, login, logout, signup, makeUserAdmin } from "../controllers/authController"
+import { login, logout, signup } from "../controllers/authController"
+import { revokeAdmin, makeUserAdmin } from "../controllers/adminController"
 import { authverify, isAdmin } from "../middleware/authMiddleware";
 const router: Router = Router();
 

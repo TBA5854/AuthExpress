@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = login;
 exports.logout = logout;
 exports.signup = signup;
-exports.makeUserAdmin = makeUserAdmin;
-exports.revokeAdmin = revokeAdmin;
 const User_1 = __importDefault(require("../models/User"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -17,12 +15,12 @@ async function login(req, res) {
     const user = await User_1.default.findOne({ email }).exec();
     console.log(user);
     if (!user) {
-        res.status(403).send("User Doesn't Exists");
+        res.status(404).send("User Doesn't Exists");
         return;
     }
     const loggingUser = await bcrypt_1.default.compare(password, user.password);
     if (!loggingUser) {
-        res.status(403).send("Incorrect Password");
+        res.status(401).send("Incorrect Password");
         return;
     }
     console.log(loggingUser);
@@ -68,29 +66,5 @@ async function signup(req, res) {
         catch (err) {
             res.status(500).send(err.message);
         }
-    }
-}
-async function makeUserAdmin(req, res) {
-    const username = req.query.username;
-    const user = await User_1.default.findOneAndUpdate({ username }, { admin: true, adminedAt: new Date() });
-    if (!user) {
-        res.send("User Not Found");
-        return;
-    }
-    else {
-        res.send("Successfully Adminified");
-        return;
-    }
-}
-async function revokeAdmin(req, res) {
-    const username = req.query.username;
-    const user = await User_1.default.findOneAndUpdate({ username }, { admin: false, adminedAt: null });
-    if (!user) {
-        res.send("User Not Found");
-        return;
-    }
-    else {
-        res.send("Successfully DeAdminified");
-        return;
     }
 }

@@ -11,12 +11,12 @@ export async function login(req: Request, res: Response): Promise<void> {
     const user = await User.findOne({ email }).exec();
     console.log(user);
     if (!user) {
-        res.status(403).send("User Doesn't Exists");
+        res.status(404).send("User Doesn't Exists");
         return;
     }
     const loggingUser = await bcrypt.compare(password, user.password);
     if (!loggingUser) {
-        res.status(403).send("Incorrect Password");
+        res.status(401).send("Incorrect Password");
         return;
     }
     console.log(loggingUser);
@@ -69,26 +69,3 @@ export async function signup(req: Request, res: Response): Promise<void> {
     }
 }
 
-export async function makeUserAdmin(req: Request, res: Response): Promise<void> {
-    const username = req.query.username;
-    const user = await User.findOneAndUpdate({ username }, { admin: true, adminedAt: new Date() })
-    if (!user) {
-        res.send("User Not Found");
-        return;
-    } else {
-        res.send("Successfully Adminified");
-        return;
-    }
-}
-
-export async function revokeAdmin(req: Request, res: Response): Promise<void> {
-    const username = req.query.username;
-    const user = await User.findOneAndUpdate({ username }, { admin: false, adminedAt: null })
-    if (!user) {
-        res.send("User Not Found");
-        return;
-    } else {
-        res.send("Successfully DeAdminified");
-        return;
-    }
-}
