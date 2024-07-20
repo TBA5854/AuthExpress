@@ -8,7 +8,7 @@ exports.logout = logout;
 exports.signup = signup;
 exports.toombify = toombify;
 exports.detoombify = detoombify;
-const User_1 = __importDefault(require("../Models/User"));
+const User_1 = __importDefault(require("../models/User"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 async function login(req, res) {

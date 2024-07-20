@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import User from "../Models/User";
+import User from "../models/User";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -69,9 +69,9 @@ export async function signup(req: Request, res: Response) {
     }
 }
 
-export async function toombify(req:Request, res: Response) {
+export async function toombify(req: Request, res: Response) {
     const username = req.query.username;
-    const user = await User.findOneAndUpdate({ username },{ toombstone:true , toombstonedAt:new Date() })
+    const user = await User.findOneAndUpdate({ username }, { toombstone: true, toombstonedAt: new Date() })
     if (!user) {
         res.send("User Not Found");
         return;

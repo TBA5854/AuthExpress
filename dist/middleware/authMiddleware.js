@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authverify = authverify;
 exports.toombverify = toombverify;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const User_1 = __importDefault(require("../Models/User"));
+const User_1 = __importDefault(require("../models/User"));
 function authverify(req, res, next) {
     const incomimg_token = req.cookies;
     if (!incomimg_token) {

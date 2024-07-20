@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import User from "../Models/User";
+import User from "../models/User";
 
 interface Token {
     user_id: string,

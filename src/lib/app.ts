@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import cookieParser from "cookie-parser";
-import router from '../Routes/authRoute';
-import { connectDB } from "../Controllers/dbController";
+import router from '../routes/authRoute';
+import { connectDB } from "../controllers/dbController";
 import { authverify } from '../middleware/authMiddleware';
 const app: Express = express();
 
@@ -12,7 +12,7 @@ connectDB();
 
 const port = 3000
 
-app.get('/',authverify, (_req: Request, res: Response) => {
+app.get('/', authverify, (_req: Request, res: Response) => {
     res.send('Hello World!')
 })
 app.listen(port, () => console.log(`Auth Server port ${port}!`))
