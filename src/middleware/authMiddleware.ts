@@ -8,7 +8,7 @@ interface Token {
     exp: number
 }
 
-export function authverify(req: Request, res: Response, next: Function) {
+export function authverify(req: Request, res: Response, next: Function): void {
     const incomimg_token = req.cookies;
     if (!incomimg_token) {
         res.redirect("/signup");
@@ -31,7 +31,7 @@ export function authverify(req: Request, res: Response, next: Function) {
     return;
 }
 
-export async function toombverify(req: Request, res: Response, next: Function) {
+export async function toombverify(req: Request, res: Response, next: Function): Promise<void> {
     const incomimg_token = req.cookies;
     const decodedToken: Token = jwt.verify(incomimg_token['X-Auth-Token'], 'This is supposed to be secret , made with <3 by tba') as Token;
     console.log(decodedToken);

@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectDB = connectDB;
 const mongoose_1 = __importDefault(require("mongoose"));
 function connectDB() {
-    // Database connection 🥳
     mongoose_1.default.connect('mongodb://auth:auth@localhost:27017/Auth');
     const connection = mongoose_1.default.connection;
     connection.once('open', () => {

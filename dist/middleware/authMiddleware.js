@@ -23,7 +23,6 @@ function authverify(req, res, next) {
             return;
         }
         else {
-            // console.log(decodedtoken);
             next();
         }
     });

@@ -28,7 +28,7 @@ async function login(req, res) {
     console.log(loggingUser);
     const user_id = user._id;
     const token = jsonwebtoken_1.default.sign({ user_id }, 'This is supposed to be secret , made with <3 by tba', { expiresIn: '180d' });
-    res.cookie('X-Auth-Token', token, { maxAge: 86400000 }); //160 Days
+    res.cookie('X-Auth-Token', token, { maxAge: 86400000 });
     res.send({ token, user_id });
 }
 function logout(_req, res) {
@@ -60,12 +60,10 @@ async function signup(req, res) {
                 toombstone,
                 toombstonedAt
             });
-            // console.log(usr._id);
             const user_id = usr._id;
             const token = jsonwebtoken_1.default.sign({ user_id }, 'This is supposed to be secret , made with <3 by tba', { expiresIn: '180d' });
-            res.cookie('X-Auth-Token', token, { maxAge: 86400000 }); // 160 Days
+            res.cookie('X-Auth-Token', token, { maxAge: 86400000 });
             res.status(201).json({ token, usr });
-            // res.redirect('/login');
         }
         catch (err) {
             res.status(500).send(err.message);

@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 
 
-export async function login(req: Request, res: Response) {
+export async function login(req: Request, res: Response): Promise<void> {
     const email: string = req.body.email;
     const password: string = req.body.password;
     const user = await User.findOne({ email }).exec();
@@ -26,12 +26,12 @@ export async function login(req: Request, res: Response) {
     res.send({ token, user_id });
 }
 
-export function logout(_req: Request, res: Response) {
+export function logout(_req: Request, res: Response): void {
     res.cookie('X-Auth-Token', '', { maxAge: 1 });
     res.send("Logout Successful");
 }
 
-export async function signup(req: Request, res: Response) {
+export async function signup(req: Request, res: Response): Promise<void> {
     const username: String = req.body.username;
     const password: String = req.body.password;
     const email: String = req.body.email;
@@ -69,7 +69,7 @@ export async function signup(req: Request, res: Response) {
     }
 }
 
-export async function toombify(req: Request, res: Response) {
+export async function toombify(req: Request, res: Response): Promise<void> {
     const username = req.query.username;
     const user = await User.findOneAndUpdate({ username }, { toombstone: true, toombstonedAt: new Date() })
     if (!user) {
@@ -81,7 +81,7 @@ export async function toombify(req: Request, res: Response) {
     }
 }
 
-export async function detoombify(req: Request, res: Response) {
+export async function detoombify(req: Request, res: Response): Promise<void> {
     const username = req.query.username;
     const user = await User.findOneAndUpdate({ username }, { toombstone: false, toombstonedAt: null })
     if (!user) {
