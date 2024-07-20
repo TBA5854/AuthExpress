@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authverify = authverify;
-exports.toombverify = toombverify;
+exports.isAdmin = isAdmin;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../models/User"));
 function authverify(req, res, next) {
@@ -28,12 +28,12 @@ function authverify(req, res, next) {
     });
     return;
 }
-async function toombverify(req, res, next) {
+async function isAdmin(req, res, next) {
     const incomimg_token = req.cookies;
     const decodedToken = jsonwebtoken_1.default.verify(incomimg_token['X-Auth-Token'], 'This is supposed to be secret , made with <3 by tba');
     console.log(decodedToken);
     const user = await User_1.default.findById(decodedToken.user_id);
-    if (user?.toombstone) {
+    if (user?.admin) {
         console.log(user);
         next();
     }

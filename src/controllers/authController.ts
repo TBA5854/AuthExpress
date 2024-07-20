@@ -36,8 +36,8 @@ export async function signup(req: Request, res: Response): Promise<void> {
     const password: String = req.body.password;
     const email: String = req.body.email;
     const description: String = req.body.description;
-    const toombstone: boolean = (req.body.toombstone) ? true : false;
-    const toombstonedAt: Date | null = (toombstone) ? new Date() : null;
+    const admin: boolean = (req.body.admin) ? true : false;
+    const adminedAt: Date | null = (admin) ? new Date() : null;
     const createdAt: Date = new Date();
     const updatedAt: Date = new Date();
 
@@ -54,8 +54,8 @@ export async function signup(req: Request, res: Response): Promise<void> {
                 description,
                 createdAt,
                 updatedAt,
-                toombstone,
-                toombstonedAt
+                admin,
+                adminedAt
             });
             // console.log(usr._id);
             const user_id = usr._id;
@@ -69,26 +69,26 @@ export async function signup(req: Request, res: Response): Promise<void> {
     }
 }
 
-export async function toombify(req: Request, res: Response): Promise<void> {
+export async function makeUserAdmin(req: Request, res: Response): Promise<void> {
     const username = req.query.username;
-    const user = await User.findOneAndUpdate({ username }, { toombstone: true, toombstonedAt: new Date() })
+    const user = await User.findOneAndUpdate({ username }, { admin: true, adminedAt: new Date() })
     if (!user) {
         res.send("User Not Found");
         return;
     } else {
-        res.send("Successfully Toombified");
+        res.send("Successfully Adminified");
         return;
     }
 }
 
-export async function detoombify(req: Request, res: Response): Promise<void> {
+export async function revokeAdmin(req: Request, res: Response): Promise<void> {
     const username = req.query.username;
-    const user = await User.findOneAndUpdate({ username }, { toombstone: false, toombstonedAt: null })
+    const user = await User.findOneAndUpdate({ username }, { admin: false, adminedAt: null })
     if (!user) {
         res.send("User Not Found");
         return;
     } else {
-        res.send("Successfully DeToombified");
+        res.send("Successfully DeAdminified");
         return;
     }
 }

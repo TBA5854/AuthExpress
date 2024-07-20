@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { detoombify, login, logout, signup, toombify } from "../controllers/authController"
-import { authverify, toombverify } from "../middleware/authMiddleware";
+import { revokeAdmin, login, logout, signup, makeUserAdmin } from "../controllers/authController"
+import { authverify, isAdmin } from "../middleware/authMiddleware";
 const router: Router = Router();
 
 router.get('/logout', logout);
 router.post('/login', login);
 router.post('/signup', signup);
-router.get('/toombify', authverify, toombverify, toombify);
-router.get('/detoombify', authverify, toombverify, detoombify);
+router.get('/adminify', authverify, isAdmin, makeUserAdmin);
+router.get('/deadminify', authverify, isAdmin, revokeAdmin);
 
 export default router;

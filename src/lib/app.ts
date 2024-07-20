@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import cookieParser from "cookie-parser";
 import router from '../routes/authRoute';
-import { connectDB } from "../controllers/dbController";
+import { connectDB } from "../helpers/dbController";
 import { authverify } from '../middleware/authMiddleware';
 const app: Express = express();
 

@@ -37,12 +37,12 @@ const userSchema = new mongoose_1.default.Schema({
         type: Date,
         required: true
     },
-    "toombstone": {
+    "admin": {
         type: Boolean,
         required: true,
         default: false
     },
-    "toombstonedAt": {
+    "adminedAt": {
         type: Date,
         required: false,
         default: null

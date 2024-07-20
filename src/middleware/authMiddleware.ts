@@ -31,13 +31,13 @@ export function authverify(req: Request, res: Response, next: Function): void {
     return;
 }
 
-export async function toombverify(req: Request, res: Response, next: Function): Promise<void> {
+export async function isAdmin(req: Request, res: Response, next: Function): Promise<void> {
     const incomimg_token = req.cookies;
     const decodedToken: Token = jwt.verify(incomimg_token['X-Auth-Token'], 'This is supposed to be secret , made with <3 by tba') as Token;
     console.log(decodedToken);
     const user = await User.findById(decodedToken.user_id);
 
-    if (user?.toombstone) {
+    if (user?.admin) {
         console.log(user)
         next();
     } else {

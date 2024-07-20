@@ -7,6 +7,6 @@ const router = (0, express_1.Router)();
 router.get('/logout', authController_1.logout);
 router.post('/login', authController_1.login);
 router.post('/signup', authController_1.signup);
-router.get('/toombify', authMiddleware_1.authverify, authMiddleware_1.toombverify, authController_1.toombify);
-router.get('/detoombify', authMiddleware_1.authverify, authMiddleware_1.toombverify, authController_1.detoombify);
+router.get('/adminify', authMiddleware_1.authverify, authMiddleware_1.isAdmin, authController_1.makeUserAdmin);
+router.get('/deadminify', authMiddleware_1.authverify, authMiddleware_1.isAdmin, authController_1.revokeAdmin);
 exports.default = router;

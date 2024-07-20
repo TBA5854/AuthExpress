@@ -6,8 +6,8 @@ interface user {
     description: string;
     createdAt: Date;
     updatedAt: Date;
-    toombstone: Boolean;
-    toombstonedAt?: Date;
+    admin: Boolean;
+    adminedAt?: Date;
 }
 declare const User: mongoose.Model<user, {}, {}, {}, mongoose.Document<unknown, {}, user> & user & {
     _id: mongoose.Types.ObjectId;

@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = login;
 exports.logout = logout;
 exports.signup = signup;
-exports.toombify = toombify;
-exports.detoombify = detoombify;
+exports.makeUserAdmin = makeUserAdmin;
+exports.revokeAdmin = revokeAdmin;
 const User_1 = __importDefault(require("../models/User"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -40,8 +40,8 @@ async function signup(req, res) {
     const password = req.body.password;
     const email = req.body.email;
     const description = req.body.description;
-    const toombstone = (req.body.toombstone) ? true : false;
-    const toombstonedAt = (toombstone) ? new Date() : null;
+    const admin = (req.body.admin) ? true : false;
+    const adminedAt = (admin) ? new Date() : null;
     const createdAt = new Date();
     const updatedAt = new Date();
     console.log(req.body);
@@ -57,8 +57,8 @@ async function signup(req, res) {
                 description,
                 createdAt,
                 updatedAt,
-                toombstone,
-                toombstonedAt
+                admin,
+                adminedAt
             });
             const user_id = usr._id;
             const token = jsonwebtoken_1.default.sign({ user_id }, 'This is supposed to be secret , made with <3 by tba', { expiresIn: '180d' });
@@ -70,27 +70,27 @@ async function signup(req, res) {
         }
     }
 }
-async function toombify(req, res) {
+async function makeUserAdmin(req, res) {
     const username = req.query.username;
-    const user = await User_1.default.findOneAndUpdate({ username }, { toombstone: true, toombstonedAt: new Date() });
+    const user = await User_1.default.findOneAndUpdate({ username }, { admin: true, adminedAt: new Date() });
     if (!user) {
         res.send("User Not Found");
         return;
     }
     else {
-        res.send("Successfully Toombified");
+        res.send("Successfully Adminified");
         return;
     }
 }
-async function detoombify(req, res) {
+async function revokeAdmin(req, res) {
     const username = req.query.username;
-    const user = await User_1.default.findOneAndUpdate({ username }, { toombstone: false, toombstonedAt: null });
+    const user = await User_1.default.findOneAndUpdate({ username }, { admin: false, adminedAt: null });
     if (!user) {
         res.send("User Not Found");
         return;
     }
     else {
-        res.send("Successfully DeToombified");
+        res.send("Successfully DeAdminified");
         return;
     }
 }
