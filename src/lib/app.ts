@@ -3,8 +3,10 @@ import cookieParser from "cookie-parser";
 import router from '../routes/authRoute';
 import { connectDB } from "../helpers/dbController";
 import { authverify } from '../middleware/authMiddleware';
+import { config } from "dotenv";
 const app: Express = express();
 
+config();
 app.use(express.json());
 app.use(cookieParser());
 app.use(router);
