@@ -100,7 +100,7 @@
   "include": [
     "src/controllers/authController.ts",
     "src/helpers/dbController.ts",
-    "src/lib/app.ts",
+    "app.ts",
     "src/models/User.ts",
     "src/routes/authRoute.ts"
   ]

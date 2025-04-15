@@ -1,10 +1,20 @@
-import mongooose from "mongoose";
+import { PrismaClient } from '@prisma/client';
 
-export function connectDB(): void {
-    // Database connection 🥳
-    mongooose.connect(process.env.DB_URL as string)
-    const connection = mongooose.connection;
-    connection.once('open', () => {
-        console.log('Database connected');
-    });
+const prisma = new PrismaClient();
+
+export async function connectDB(): Promise<void> {
+    try {
+        await prisma.$connect();
+        console.log('Database connected via Prisma');
+    } catch (error) {
+        console.error('Database connection failed:', error);
+        process.exit(1);
+    }
 }
+
+process.on('beforeExit', async () => {
+    await prisma.$disconnect();
+    console.log('Disconnected from database');
+});
+
+export default prisma;

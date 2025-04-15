@@ -1,46 +1,45 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import User from "../models/User";
 
-interface Token {
-    user_id: string,
-    iat: number,
-    exp: number
+// Extend the Express Request interface
+declare global {
+    namespace Express {
+        interface Request {
+            user?: string;
+        }
+    }
 }
 
 export function authverify(req: Request, res: Response, next: Function): void {
-    const incomimg_token = req.cookies;
+    const incomimg_token = req.headers;
     if (!incomimg_token) {
         res.redirect("/signup");
         return;
     }
-    if (!incomimg_token['X-Auth-Token']) {
-        res.redirect("/login");
+    const bearer = incomimg_token['X-Auth-Token'];
+    if (!bearer) {
+        res.status(401).send("Token is required");
         return;
     }
-    jwt.verify(incomimg_token['X-Auth-Token'], 'This is supposed to be secret , made with <3 by tba', (err: any, _decodedtoken: any) => {
+    const bearerToken = Array.isArray(bearer) ? bearer[0].split(' ')[1] : bearer.split(' ')[1];
+    if (!bearerToken) {
+        res.status(401).send("Token is required");
+        return;
+    }
+    if (bearerToken === 'null') {
+        res.status(401).send("Token is null");
+        return;
+    }
+    jwt.verify(bearerToken, 'This is supposed to be secret , made with <3 by tba', (err: any, decodedtoken: any) => {
         if (err) {
-            res.redirect("/login");
+            res.status(401).send("Token is invalid");
             return;
         }
         else {
+            req.user= decodedtoken.user_id;
             // console.log(decodedtoken);
             next();
         }
     });
     return;
-}
-
-export async function isAdmin(req: Request, res: Response, next: Function): Promise<void> {
-    const incomimg_token = req.cookies;
-    const decodedToken: Token = jwt.verify(incomimg_token['X-Auth-Token'], 'This is supposed to be secret , made with <3 by tba') as Token;
-    console.log(decodedToken);
-    const user = await User.findById(decodedToken.user_id);
-
-    if (user?.admin) {
-        console.log(user)
-        next();
-    } else {
-        res.send("Not Authorised");
-    }
 }
